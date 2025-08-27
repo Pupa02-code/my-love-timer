@@ -1,135 +1,112 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Счётчик до встречи</title>
-  <style>
-@font-face {
-    font-family: 'OverdozeSans';
-    src: url('fonts/overdozesans.ttf') format('truetype');
-    font-weight: normal;
-    font-style: normal;
-}
-body {
-    font-family: 'OverdozeSans', sans-serif;
-}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Счётчик до встречи</title>
 
+    <style>
+        @font-face {
+            font-family: 'OverdozeSans';
+            src: url('fonts/overdozesans.ttf') format('truetype');
+        }
 
-    h1 {
-      font-size: 3em;
-      text-align: center;
-      margin-bottom: 30px;
-      color: #fff;
-      z-index: 10;
-      position: relative;
-    }
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            background: linear-gradient(135deg, #ff9ecd, #ff70a6);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            font-family: sans-serif;
+        }
 
-    #countdown {
-      font-size: 2em;
-      font-weight: bold;
-      background: white;
-      width: 300px;
-      height: 200px;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      align-items: flex-end;
-      padding: 20px;
-      border-radius: 20px;
-      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-      box-sizing: border-box;
-      position: relative;
-      z-index: 10;
-      opacity: 0;
-      transform: scale(0.8);
-      transition: all 0.6s ease;
-    }
+        h1 {
+            font-family: 'OverdozeSans', sans-serif;
+            font-size: 3em;
+            text-align: center;
+            margin-bottom: 30px;
+            color: white;
+        }
 
-    .note {
-      width: 300px;
-      text-align: center;
-      font-size: 1em;
-      color: #444;
-      margin-top: 10px;
-      background: white;
-      padding: 5px;
-      border-radius: 0 0 20px 20px;
-      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-      box-sizing: border-box;
-      position: relative;
-      z-index: 10;
-    }
+        #countdown {
+            font-size: 2em;
+            font-weight: bold;
+            background: white;
+            width: 300px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: flex-end;
+            padding: 20px;
+            border-radius: 20px;
+            box-shadow: 0 0 40px rgba(0, 0, 0, 0.2);
+            text-align: right;
+        }
 
-    .heart {
-      position: absolute;
-      color: #ff69b4;
-      font-size: 24px;
-      animation: fall linear forwards;
-      opacity: 0.8;
-    }
+        .note {
+            font-size: 1em;
+            color: #444;
+            background: white;
+            padding: 5px;
+            margin-top: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
 
-    @keyframes fall {
-      0% { transform: translateY(-10vh) rotate(0deg); opacity: 1; }
-      100% { transform: translateY(110vh) rotate(360deg); opacity: 0; }
-    }
-  </style>
+        .heart {
+            position: absolute;
+            color: #ff6894;
+            font-size: 24px;
+            animation: fall linear forwards;
+            opacity: 0.8;
+        }
+
+        @keyframes fall {
+            0% { transform: translateY(-10vh) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(110vh) rotate(360deg); opacity: 0; }
+        }
+    </style>
 </head>
 <body>
-  <h1>Сколько осталось до встречи ❤️</h1>
-  <div id="countdown">Загрузка...</div>
-  <div class="note">С 26 августа 2025 по 22 декабря 2025</div>
+    <h1>Сколько осталось до встречи ❤️</h1>
+    <div id="countdown"></div>
+    <div class="note">С 26 августа 2025 по 22 декабря 2025</div>
 
-  <script>
-    const countdown = document.getElementById("countdown");
-    const startDate = new Date("2025-08-26T00:00:00");
-    const endDate = new Date("2025-12-22T00:00:00");
+    <script>
+        const startDate = new Date("2025-08-26");
+        const endDate = new Date("2025-12-22");
 
-    function updateCountdown() {
-      const now = new Date();
-      let text = "";
+        function updateCountdown() {
+            const today = new Date();
+            let diff = Math.floor((endDate - today) / (1000 * 60 * 60 * 24));
+            if (diff < 0) diff = 0;
 
-      if (now < startDate) {
-        const diffStart = Math.floor((startDate - now) / (1000 * 60 * 60 * 24));
-        text = `До начала:\n${diffStart} дней`;
-      } else if (now > endDate) {
-        text = "Он уже вернулся! 🎉";
-      } else {
-        const diffTime = endDate - now;
-        const days = Math.floor(diffTime / (1000 * 60 * 60 * 24));
-        const weeks = Math.floor(days / 7);
-        const months = ((endDate.getFullYear() - now.getFullYear()) * 12 + (endDate.getMonth() - now.getMonth())) + (endDate.getDate() >= now.getDate() ? 0 : -1);
-        text = `Осталось:\n${days} дней\n${weeks} недель\n${months} месяцев`;
-      }
+            const weeks = Math.floor(diff / 7);
+            const months = Math.floor(diff / 30);
 
-      countdown.style.opacity = "0";
-      countdown.style.transform = "scale(0.8)";
-      setTimeout(() => {
-        countdown.innerText = text;
-        countdown.style.opacity = "1";
-        countdown.style.transform = "scale(1)";
-      }, 300);
-    }
+            document.getElementById("countdown").innerHTML = `
+                Осталось:<br>
+                ${diff} дней<br>
+                ${weeks} недель<br>
+                ${months} месяцев
+            `;
+        }
 
-    setInterval(updateCountdown, 1000 * 60 * 60);
-    updateCountdown();
+        function createHeart() {
+            const heart = document.createElement("div");
+            heart.classList.add("heart");
+            heart.innerHTML = "❤";
+            heart.style.left = Math.random() * 100 + "vw";
+            heart.style.animationDuration = 3 + Math.random() * 2 + "s";
+            document.body.appendChild(heart);
+            setTimeout(() => heart.remove(), 5000);
+        }
 
-    // Падающие сердечки
-    function createHeart() {
-      const heart = document.createElement("div");
-      heart.classList.add("heart");
-      heart.innerText = "❤";
-      heart.style.left = Math.random() * 100 + "vw";
-      heart.style.fontSize = 20 + Math.random() * 20 + "px";
-      heart.style.animationDuration = (3 + Math.random() * 5) + "s";
-      document.body.appendChild(heart);
-
-      setTimeout(() => heart.remove(), 8000);
-    }
-
-    setInterval(createHeart, 500);
-  </script>
+        setInterval(updateCountdown, 1000);
+        setInterval(createHeart, 500);
+        updateCountdown();
+    </script>
 </body>
 </html>
-
