@@ -28,6 +28,14 @@
             font-family: sans-serif;
         }
 
+        .card {
+            display: inline-flex;
+            flex-direction: column;
+            align-items: center;
+            width: fit-content;
+            gap: 16px;
+        }
+
         h1 {
             font-family: 'OverdozeSans', sans-serif;
             font-weight: 700;
@@ -47,7 +55,7 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            padding: 24px 28px;
+            padding: 32px 36px;
             border-radius: 54px;
             box-shadow: 0 0 29px 4px rgba(0, 0, 0, 0.25);
             text-align: center;
@@ -65,14 +73,13 @@
             font-size: 23px;
             color: #535353;
             background: #fff;
-            padding: 8px 18px;
-            margin-top: 15px;
+            padding: 10px 18px;
             border-radius: 54px;
             box-shadow: 0 0 29px 4px rgba(0, 0, 0, 0.25);
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            width: auto;
+            width: 100%;
             height: auto;
             max-width: calc(100vw - 48px);
             margin-left: auto;
@@ -89,15 +96,14 @@
 
             #countdown {
                 font-size: 42px;
-                padding: 18px 22px;
+                padding: 24px 28px;
                 border-radius: 40px;
                 line-height: 1.2;
             }
 
             .note {
                 font-size: 18px;
-                padding: 6px 14px;
-                margin-top: 12px;
+                padding: 8px 14px;
                 border-radius: 40px;
             }
         }
@@ -111,14 +117,13 @@
 
             #countdown {
                 font-size: 36px;
-                padding: 14px 18px;
+                padding: 18px 22px;
                 border-radius: 30px;
             }
 
             .note {
                 font-size: 16px;
                 padding: 6px 12px;
-                margin-top: 10px;
                 border-radius: 30px;
             }
         }
@@ -132,14 +137,13 @@
 
             #countdown {
                 font-size: 30px;
-                padding: 12px 16px;
+                padding: 14px 18px;
                 border-radius: 25px;
             }
 
             .note {
                 font-size: 14px;
                 padding: 5px 10px;
-                margin-top: 8px;
                 border-radius: 25px;
             }
         }
@@ -160,8 +164,10 @@
 </head>
 <body>
     <h1>СКОЛЬКО ОСТАЛОСЬ ДО ВСТРЕЧИ</h1>
-    <div id="countdown"></div>
-    <div class="note">С 26 августа 2025 по 22 декабря 2025</div>
+    <div class="card">
+        <div id="countdown"></div>
+        <div class="note">С 26 августа по 22 декабря</div>
+    </div>
 
     <script>
         const startDate = new Date("2025-08-26");
