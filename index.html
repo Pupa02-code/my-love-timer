@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Счётчик до встречи</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(to bottom, #f8f9fa, #e3f2fd);
+      text-align: center;
+      padding: 50px;
+      color: #333;
+    }
+    h1 {
+      font-size: 2.5em;
+      margin-bottom: 20px;
+    }
+    #countdown {
+      font-size: 2em;
+      font-weight: bold;
+      background: white;
+      display: inline-block;
+      padding: 20px 30px;
+      border-radius: 15px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    }
+    .note {
+      margin-top: 30px;
+      font-size: 1.2em;
+      color: #666;
+    }
+  </style>
+</head>
+<body>
+  <h1>Сколько осталось до встречи ❤️</h1>
+  <div id="countdown">Загрузка...</div>
+  <div class="note">С 26 августа 2025 по 22 декабря 2025</div>
+
+  <script>
+    const startDate = new Date("2025-08-26T00:00:00");
+    const endDate = new Date("2025-12-22T00:00:00");
+
+    function updateCountdown() {
+      const now = new Date();
+
+      // Если дата ещё не наступила — показываем "До начала осталось"
+      if (now < startDate) {
+        const diffStart = Math.floor((startDate - now) / (1000 * 60 * 60 * 24));
+        document.getElementById("countdown").innerText = `До начала отсчёта: ${diffStart} дней`;
+        return;
+      }
+
+      // Если дата прошла
+      if (now > endDate) {
+        document.getElementById("countdown").innerText = "Он уже вернулся! 🎉";
+        return;
+      }
+
+      // Считаем разницу
+      const diffTime = endDate - now;
+      const days = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+      const weeks = Math.floor(days / 7);
+      const months = ((endDate.getFullYear() - now.getFullYear()) * 12 + (endDate.getMonth() - now.getMonth())) + (endDate.getDate() >= now.getDate() ? 0 : -1);
+
+      document.getElementById("countdown").innerHTML =
+        `Осталось:<br>${days} дней<br>${weeks} недель<br>${months} месяцев`;
+    }
+
+    setInterval(updateCountdown, 1000 * 60 * 60); // обновляем каждый час
+    updateCountdown();
+  </script>
+</body>
+</html>
