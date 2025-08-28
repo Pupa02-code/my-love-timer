@@ -233,6 +233,10 @@
             }, timeUntilMidnight);
         }
         scheduleRefresh();
+        
+        // Принудительно обновляем страницу прямо сейчас для исправления счётчика
+        console.log('Принудительно обновляю страницу...');
+        location.reload();
     </script>
 </body>
 </html>
