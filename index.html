@@ -212,6 +212,16 @@
         setInterval(updateCountdown, 1000);
         setInterval(createHeart, 500);
         updateCountdown();
+
+        // Автообновление страницы в полночь по иркутскому времени
+        function scheduleRefresh() {
+            const now = new Date();
+            const next = new Date();
+            next.setHours(0, 0, 0, 0); // полночь
+            if (next <= now) next.setDate(next.getDate() + 1);
+            setTimeout(() => location.reload(), next - now);
+        }
+        scheduleRefresh();
     </script>
 </body>
 </html>
