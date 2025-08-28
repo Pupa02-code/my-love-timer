@@ -174,21 +174,26 @@
 
     <script>
         const startDate = new Date("2025-08-26");
-        const endDate = new Date(Date.UTC(2025, 11, 22, 0, 0, 0)); // 22 декабря 2025 00:00 UTC
+        // Конец в Иркутском времени (22 декабря 2025 00:00 +08:00)
+        const endDateIrk = new Date(Date.UTC(2025, 11, 21, 16, 0, 0)); 
+        // (21 декабря 16:00 UTC = 22 декабря 00:00 Иркутск)
 
         function getIrkutskDate() {
             const now = new Date();
-            // В Иркутске UTC+8 (без перехода на летнее время)
             const utc = now.getTime() + now.getTimezoneOffset() * 60000;
-            return new Date(utc + 8 * 3600000); 
+            return new Date(utc + 8 * 3600000);
         }
 
         function updateCountdown() {
-            const today = getIrkutskDate();
-            const todayLocal = new Date(today.getFullYear(), today.getMonth(), today.getDate());
-            const endDateLocal = new Date(endDate.getFullYear(), endDate.getMonth(), endDate.getDate());
+            const todayIrk = getIrkutskDate();
+            const todayMidnightIrk = new Date(Date.UTC(
+                todayIrk.getUTCFullYear(),
+                todayIrk.getUTCMonth(),
+                todayIrk.getUTCDate() - 0, // текущий день в Иркутске
+                -8, 0, 0 // -8 часов = перевод в UTC полуночи Иркутска
+            ));
 
-            let diff = Math.floor((endDateLocal - todayLocal) / (1000 * 60 * 60 * 24));
+            let diff = Math.floor((endDateIrk - todayMidnightIrk) / (1000 * 60 * 60 * 24));
             if (diff < 0) diff = 0;
 
             const weeks = Math.floor(diff / 7);
