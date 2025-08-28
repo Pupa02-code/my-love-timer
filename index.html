@@ -173,7 +173,7 @@
     </div>
 
     <script>
-        const endDateIrk = new Date("2025-12-22T00:00:00+08:00"); // Конец по Иркутску
+        const endDateIrk = new Date(Date.UTC(2025, 11, 21, 16, 0, 0)); // 22 декабря 2025 00:00 по Иркутску (UTC+8)
 
         function getIrkutskMidnight(date = new Date()) {
             // Получаем "сегодня" в Иркутске в виде строки YYYY-MM-DDT00:00:00+08:00
@@ -200,6 +200,10 @@
                 ${months} месяцев
             `;
             console.log("Сегодня по Иркутску:", todayMidnightIrk.toString(), "Дней осталось:", diff);
+            console.log("Дата окончания (UTC):", endDateIrk.toISOString());
+            console.log("Дата окончания (локально):", endDateIrk.toString());
+            console.log("Разница в миллисекундах:", endDateIrk - todayMidnightIrk);
+            console.log("Разница в днях (точная):", (endDateIrk - todayMidnightIrk) / (1000 * 60 * 60 * 24));
         }
 
         function createHeart() {
