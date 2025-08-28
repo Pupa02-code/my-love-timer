@@ -176,15 +176,18 @@
         const startDate = new Date("2025-08-26");
         const endDate = new Date("2025-12-22");
 
+        function getIrkutskDate() {
+            const now = new Date();
+            // В Иркутске UTC+8 (без перехода на летнее время)
+            const utc = now.getTime() + now.getTimezoneOffset() * 60000;
+            return new Date(utc + 8 * 3600000); 
+        }
+
         function updateCountdown() {
-            const today = new Date();
-            
-            // Получаем текущую дату в местном времени (без времени)
+            const today = getIrkutskDate();
             const todayLocal = new Date(today.getFullYear(), today.getMonth(), today.getDate());
-            
-            // Получаем дату окончания в местном времени (без времени)
             const endDateLocal = new Date(endDate.getFullYear(), endDate.getMonth(), endDate.getDate());
-            
+
             let diff = Math.floor((endDateLocal - todayLocal) / (1000 * 60 * 60 * 24));
             if (diff < 0) diff = 0;
 
@@ -233,10 +236,6 @@
             }, timeUntilMidnight);
         }
         scheduleRefresh();
-        
-        // Принудительно обновляем страницу прямо сейчас для исправления счётчика
-        console.log('Принудительно обновляю страницу...');
-        location.reload();
     </script>
 </body>
 </html>
