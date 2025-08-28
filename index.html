@@ -219,7 +219,18 @@
             const next = new Date();
             next.setHours(0, 0, 0, 0); // полночь
             if (next <= now) next.setDate(next.getDate() + 1);
-            setTimeout(() => location.reload(), next - now);
+            
+            const timeUntilMidnight = next - now;
+            const hours = Math.floor(timeUntilMidnight / (1000 * 60 * 60));
+            const minutes = Math.floor((timeUntilMidnight % (1000 * 60 * 60)) / (1000 * 60));
+            
+            console.log(`Страница обновится через ${hours} часов ${minutes} минут`);
+            console.log(`Следующее обновление: ${next.toLocaleString('ru-RU')}`);
+            
+            setTimeout(() => {
+                console.log('Обновляю страницу...');
+                location.reload();
+            }, timeUntilMidnight);
         }
         scheduleRefresh();
     </script>
